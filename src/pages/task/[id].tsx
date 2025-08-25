@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/services/firebaseConnection";
 import { Textarea } from "@/components/textarea";
 import { useSession } from "next-auth/react";
@@ -66,12 +66,12 @@ export default function Task({ item, allComments }: TaskProps) {
         }
     }
 
-    async function handleDeleteComment(commentId: string) {
+    async function handleDeleteComment(id: string) {
         try {
-            await import("firebase/firestore").then(async ({ deleteDoc, doc }) => {
-                await deleteDoc(doc(db, "comments", commentId));
-                setComments(prev => prev.filter(comment => comment.id !== commentId));
-            });
+            const docRef = doc(db, "comments", id);
+            await deleteDoc(docRef);
+            const updatedComments = comments.filter(comment => comment.id !== id);
+            setComments(updatedComments);
         } catch (error) {
             console.error("Erro ao deletar comentário:", error);
             alert("Erro ao deletar comentário.");
