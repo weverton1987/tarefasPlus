@@ -63,3 +63,16 @@
     border-radius: 4px;
     margin: 0 14px;
 }
+
+@media screen and (max-width: 510px) {
+    .logo {
+        font-size: 20px;
+    }
+    .link {
+        font-size: 12px;
+    }
+
+    .loginButton {
+        font-size: 12px;
+    }
+}
